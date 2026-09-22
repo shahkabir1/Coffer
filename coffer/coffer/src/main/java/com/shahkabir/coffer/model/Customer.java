@@ -21,6 +21,7 @@ public class Customer {
     @Column(nullable = false)
     private String email;
 
+    @Column()
     private Instant createdAt;
 
     public Customer(String firstName, String lastName, String email) {
