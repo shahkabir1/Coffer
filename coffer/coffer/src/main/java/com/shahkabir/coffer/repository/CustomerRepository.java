@@ -1,4 +1,10 @@
 package com.shahkabir.coffer.repository;
 
-public class CustomerRepository {
+import com.shahkabir.coffer.model.Customer;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.UUID;
+
+public interface CustomerRepository extends JpaRepository<Customer, UUID> {
+
 }

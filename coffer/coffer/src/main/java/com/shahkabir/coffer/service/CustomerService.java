@@ -2,8 +2,8 @@ package com.shahkabir.coffer.service;
 
 import com.shahkabir.coffer.model.Customer;
 import com.shahkabir.coffer.repository.CustomerRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -44,9 +44,9 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Customer getCustomer(UUID customerId) {
-        return customerRepository.findById(productId)
+        return customerRepository.findById(customerId)
                 .orElseThrow(() ->
                         new NoSuchElementException(
                                 "Customer not found"

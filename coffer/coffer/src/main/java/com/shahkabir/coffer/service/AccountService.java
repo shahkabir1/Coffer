@@ -3,8 +3,10 @@ package com.shahkabir.coffer.service;
 import com.shahkabir.coffer.generator.AccountNumberGenerator;
 import com.shahkabir.coffer.model.Account;
 import com.shahkabir.coffer.model.Customer;
-import jakarta.transaction.Transactional;
+import com.shahkabir.coffer.repository.AccountRepository;
+import com.shahkabir.coffer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -37,12 +39,12 @@ public class AccountService {
 
         Account account = new Account(accountNumber, customer);
 
-        return accountRepository.save(acccount);
+        return accountRepository.save(account);
     }
 
     @Transactional(readOnly = true)
     public Account getAccount(UUID accountId) {
-        return accountRepository.findById(accouhtId)
+        return accountRepository.findById(accountId)
                 .orElseThrow(() ->
                         new NoSuchElementException(
                                 "Account not found"
