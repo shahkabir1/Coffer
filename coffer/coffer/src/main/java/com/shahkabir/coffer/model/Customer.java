@@ -24,6 +24,9 @@ public class Customer {
     @Column(nullable = false)
     private Instant createdAt;
 
+    protected Customer() {
+    }
+
     public Customer(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;

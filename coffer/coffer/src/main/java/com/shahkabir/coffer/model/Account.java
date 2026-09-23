@@ -34,6 +34,10 @@ public class Account {
     @Column(nullable = false)
     private Instant createdAt;
 
+    protected Account(Customer customer) {
+        this.customer = customer;
+    }
+
     public Account(String accountNumber, AccountType type, Customer customer) {
         this.accountNumber = accountNumber;
         this.type = type;
