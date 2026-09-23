@@ -18,10 +18,10 @@ public class Customer {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column()
+    @Column(nullable = false)
     private Instant createdAt;
 
     public Customer(String firstName, String lastName, String email) {

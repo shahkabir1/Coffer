@@ -1,7 +1,10 @@
 package com.shahkabir.coffer.generator;
 
+import org.springframework.stereotype.Component;
+
 import java.security.SecureRandom;
 
+@Component
 public class AccountNumberGenerator {
     private final SecureRandom random = new SecureRandom();
 

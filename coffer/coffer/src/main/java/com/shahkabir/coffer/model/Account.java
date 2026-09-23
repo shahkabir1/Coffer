@@ -15,17 +15,21 @@ public class Account {
     @Column(nullable = false, unique = true, length = 12)
     private String accountNumber;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AccountType type;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 3)
     private CurrencyType currency;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AccountStatus status;
 
-    @Column(nullable = false)
-    private Customer customer;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private final Customer customer;
 
     @Column(nullable = false)
     private Instant createdAt;
