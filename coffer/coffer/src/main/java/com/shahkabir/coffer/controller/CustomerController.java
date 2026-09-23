@@ -20,14 +20,14 @@ public class CustomerController {
     }
 
 
-    @GetMapping
-    public List<Customer> getAllCustomers(){
-        return customerService.getAllCustomers();
-    }
-
     @GetMapping("/{id}")
     public Customer getCustomerById(@PathVariable UUID id) {
         return customerService.getCustomer(id);
+    }
+
+    @GetMapping
+    public List<Customer> getAllCustomers(){
+        return customerService.getAllCustomers();
     }
 
     @PostMapping

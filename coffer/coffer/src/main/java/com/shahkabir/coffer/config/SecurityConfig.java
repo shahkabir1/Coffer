@@ -16,12 +16,12 @@ public class SecurityConfig {
         throws Exception {
         return http
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/api/v1/customers")
+                        .ignoringRequestMatchers("/api/v1/accounts")
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 HttpMethod.POST,
-                                "/api/v1/customers"
+                                "/api/v1/accounts"
                         ).permitAll()
                         .anyRequest().denyAll()
                 )

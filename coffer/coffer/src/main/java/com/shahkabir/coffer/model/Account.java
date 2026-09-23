@@ -34,9 +34,9 @@ public class Account {
     @Column(nullable = false)
     private Instant createdAt;
 
-    public Account(String accountNumber, Customer customer) {
+    public Account(String accountNumber, AccountType type, Customer customer) {
         this.accountNumber = accountNumber;
-        this.type = AccountType.CHEQUING;
+        this.type = type;
         this.currency = CurrencyType.CAD;
         this.status = AccountStatus.ACTIVE;
         this.customer = customer;
