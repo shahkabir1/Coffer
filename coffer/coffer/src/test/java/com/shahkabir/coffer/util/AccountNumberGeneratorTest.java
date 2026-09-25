@@ -1,4 +1,4 @@
-package com.shahkabir.coffer.generator;
+package com.shahkabir.coffer.util;
 
 import org.junit.jupiter.api.Test;
 

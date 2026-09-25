@@ -1,5 +1,6 @@
 package com.shahkabir.coffer.service;
 
+import com.shahkabir.coffer.exception.CustomerNotFoundException;
 import com.shahkabir.coffer.model.Customer;
 import com.shahkabir.coffer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,18 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
+    @Transactional
+    public Customer updateCustomer(UUID customerId, UpdateCustomerRequest request) {
+        Customer customer = customerRepository
+                .findById(customerId)
+                .orElseThrow(() ->
+                        new NoSuchElementException("Customer not found")
+                );
+        if (request.)
+        }
+        return customer;
+    }
+
     @Transactional(readOnly = true)
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
@@ -54,8 +67,8 @@ public class CustomerService {
     public Customer getCustomer(UUID customerId) {
         return customerRepository.findById(customerId)
                 .orElseThrow(() ->
-                        new NoSuchElementException(
-                                "Customer not found"
+                        new CustomerNotFoundException(
+                                "Customer not found: " + customerId
                         )
                 );
     }

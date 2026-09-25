@@ -29,13 +29,12 @@ public class Account {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "customer_id", nullable = false)
-    private final Customer customer;
+    private Customer customer;
 
     @Column(nullable = false)
     private Instant createdAt;
 
-    protected Account(Customer customer) {
-        this.customer = customer;
+    protected Account() {
     }
 
     public Account(String accountNumber, AccountType type, Customer customer) {
@@ -59,7 +58,7 @@ public class Account {
         return type;
     }
 
-    public CurrencyType getCurrencyType() {
+    public CurrencyType getCurrency() {
         return currency;
     }
 

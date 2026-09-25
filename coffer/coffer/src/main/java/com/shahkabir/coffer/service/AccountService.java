@@ -1,6 +1,9 @@
 package com.shahkabir.coffer.service;
 
-import com.shahkabir.coffer.generator.AccountNumberGenerator;
+import com.shahkabir.coffer.dto.AccountResponse;
+import com.shahkabir.coffer.dto.UpdateAccountRequest;
+import com.shahkabir.coffer.exception.AccountNotFoundException;
+import com.shahkabir.coffer.util.AccountNumberGenerator;
 import com.shahkabir.coffer.model.Account;
 import com.shahkabir.coffer.model.AccountType;
 import com.shahkabir.coffer.model.Customer;
@@ -44,6 +47,22 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
+    @Transactional
+    public Account updateAccount(UUID accountId, UpdateAccountRequest request) {
+        Account account = accountRepository
+                .findById(accountId)
+                .orElseThrow(() ->
+                        new NoSuchElementException("Account not found")
+                );
+        if (request.status() != null) {
+            account.changeAccountStatus(request.status());
+        }
+
+        if (request.currency() != null) {
+            account.changeCurrencyType(request.currency());
+        }
+        return account;
+    }
 
     @Transactional(readOnly = true)
     public List<Account> getAllAccounts() {
@@ -54,8 +73,8 @@ public class AccountService {
     public Account getAccount(UUID accountId) {
         return accountRepository.findById(accountId)
                 .orElseThrow(() ->
-                        new NoSuchElementException(
-                                "Account not found"
+                        new AccountNotFoundException(
+                                "Account not found: " + accountId
                         )
                 );
     }

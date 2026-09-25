@@ -2,8 +2,10 @@ package com.shahkabir.coffer.controller;
 
 
 import com.shahkabir.coffer.dto.CreateCustomerRequest;
+import com.shahkabir.coffer.dto.CustomerResponse;
 import com.shahkabir.coffer.model.Customer;
 import com.shahkabir.coffer.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,20 +23,49 @@ public class CustomerController {
 
 
     @GetMapping("/{id}")
-    public Customer getCustomerById(@PathVariable UUID id) {
-        return customerService.getCustomer(id);
+    public CustomerResponse getCustomerById(@PathVariable UUID id) {
+        Customer customer = customerService.getCustomer(id);
+
+        return new CustomerResponse(
+                customer.getId(),
+                customer.getFirstName(),
+                customer.getLastName(),
+                customer.getEmail(),
+                customer.getCreationTime()
+        );
     }
 
     @GetMapping
-    public List<Customer> getAllCustomers(){
-        return customerService.getAllCustomers();
+    public List<CustomerResponse> getAllCustomers(){
+        return customerService.getAllCustomers()
+                .stream()
+                .map(customer -> new CustomerResponse(
+                        customer.getId(),
+                        customer.getFirstName(),
+                        customer.getLastName(),
+                        customer.getEmail(),
+                        customer.getCreationTime()
+                ))
+                .toList();
     }
 
     @PostMapping
-    public Customer createCustomer(@RequestBody CreateCustomerRequest request) {
-        return customerService.createCustomer(
+    public CustomerResponse createCustomer(
+            @RequestBody @Valid CreateCustomerRequest request) {
+        Customer customer = customerService.createCustomer(
                 request.firstName(),
                 request.lastName(),
-                request.email());
+                request.email()
+        );
+
+        return new CustomerResponse(
+                customer.getId(),
+                customer.getFirstName(),
+                customer.getLastName(),
+                customer.getEmail(),
+                customer.getCreationTime()
+
+        );
+
     }
 }
