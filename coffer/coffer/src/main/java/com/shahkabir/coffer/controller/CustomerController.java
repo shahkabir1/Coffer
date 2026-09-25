@@ -1,10 +1,11 @@
 package com.shahkabir.coffer.controller;
 
 
-import com.shahkabir.coffer.dto.CreateCustomerRequest;
-import com.shahkabir.coffer.dto.CustomerResponse;
+import com.shahkabir.coffer.dto.*;
+import com.shahkabir.coffer.model.Account;
 import com.shahkabir.coffer.model.Customer;
 import com.shahkabir.coffer.service.CustomerService;
+import com.shahkabir.coffer.util.AccountNumberMasker;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,21 @@ public class CustomerController {
                 customer.getEmail(),
                 customer.getCreationTime()
         );
+    }
+
+    @PatchMapping("/{id}")
+    public CustomerResponse updateCustomer(@PathVariable UUID id,
+                                         @RequestBody @Valid UpdateCustomerRequest request){
+        Customer customer = customerService.updateCustomer(id, request);
+
+        return new CustomerResponse(
+                customer.getId(),
+                customer.getFirstName(),
+                customer.getLastName(),
+                customer.getEmail(),
+                customer.getCreationTime()
+        );
+
     }
 
     @GetMapping

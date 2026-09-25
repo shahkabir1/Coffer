@@ -1,5 +1,6 @@
 package com.shahkabir.coffer.service;
 
+import com.shahkabir.coffer.dto.UpdateCustomerRequest;
 import com.shahkabir.coffer.exception.CustomerNotFoundException;
 import com.shahkabir.coffer.model.Customer;
 import com.shahkabir.coffer.repository.CustomerRepository;
@@ -53,7 +54,16 @@ public class CustomerService {
                 .orElseThrow(() ->
                         new NoSuchElementException("Customer not found")
                 );
-        if (request.)
+        if (request.firstName() != null){
+            customer.changeFirstName(request.firstName());
+        }
+
+        if (request.lastName() != null) {
+            customer.changeLastName(request.lastName());
+        }
+
+        if (request.email() != null) {
+            customer.changeEmail(request.email());
         }
         return customer;
     }

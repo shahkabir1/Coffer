@@ -2,7 +2,8 @@ package com.shahkabir.coffer.model;
 
 public enum AccountType {
     CHEQUING("Chequing"),
-    SAVINGS("Savings");
+    SAVINGS("Savings"),
+    INTERNAL_CLEARING("Internal Clearing");
 
     private final String value;
 

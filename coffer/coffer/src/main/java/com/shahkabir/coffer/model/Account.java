@@ -2,6 +2,7 @@ package com.shahkabir.coffer.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -23,6 +24,9 @@ public class Account {
     @Column(nullable = false, length = 3)
     private CurrencyType currency;
 
+    @Column(name = "balance", nullable = false)
+    private BigDecimal balance;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AccountStatus status;
@@ -41,6 +45,7 @@ public class Account {
         this.accountNumber = accountNumber;
         this.type = type;
         this.currency = CurrencyType.CAD;
+        this.balance = BigDecimal.ZERO;
         this.status = AccountStatus.ACTIVE;
         this.customer = customer;
         this.createdAt = Instant.now();
@@ -62,6 +67,10 @@ public class Account {
         return currency;
     }
 
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
     public AccountStatus getAccountStatus() {
         return status;
     }
@@ -76,6 +85,10 @@ public class Account {
 
     public void changeCurrencyType(CurrencyType newCurrency) {
         this.currency = newCurrency;
+    }
+
+    public void setBalance(BigDecimal amount) {
+        this.balance = amount;
     }
 
     public void changeAccountStatus(AccountStatus newStatus) {

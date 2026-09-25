@@ -1,6 +1,5 @@
 package com.shahkabir.coffer.service;
 
-import com.shahkabir.coffer.dto.AccountResponse;
 import com.shahkabir.coffer.dto.UpdateAccountRequest;
 import com.shahkabir.coffer.exception.AccountNotFoundException;
 import com.shahkabir.coffer.util.AccountNumberGenerator;
@@ -61,6 +60,7 @@ public class AccountService {
         if (request.currency() != null) {
             account.changeCurrencyType(request.currency());
         }
+
         return account;
     }
 

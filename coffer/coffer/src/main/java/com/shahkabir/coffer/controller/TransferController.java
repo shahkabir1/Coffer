@@ -1,16 +1,11 @@
 package com.shahkabir.coffer.controller;
 
 
-import com.shahkabir.coffer.dto.AccountResponse;
-import com.shahkabir.coffer.dto.CreateAccountRequest;
 import com.shahkabir.coffer.dto.CreateTransferRequest;
 import com.shahkabir.coffer.dto.TransferResponse;
-import com.shahkabir.coffer.model.Account;
 import com.shahkabir.coffer.model.LedgerTransaction;
-import com.shahkabir.coffer.model.TransactionStatus;
 import com.shahkabir.coffer.service.LedgerService;
 import com.shahkabir.coffer.service.TransferService;
-import com.shahkabir.coffer.util.AccountNumberMasker;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
