@@ -1,13 +1,12 @@
 package com.shahkabir.coffer.service;
 
 import com.shahkabir.coffer.dto.FxRateResponse;
+import com.shahkabir.coffer.exception.InvalidAmountException;
 import com.shahkabir.coffer.model.Account;
 import com.shahkabir.coffer.model.CurrencyType;
 import com.shahkabir.coffer.model.LedgerTransaction;
-import com.shahkabir.coffer.model.TransactionStatus;
 import com.shahkabir.coffer.repository.AccountRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.NoSuchElementException;
@@ -34,6 +33,10 @@ public class TransferService {
             UUID toAccountId,
             BigDecimal amount
     ) {
+
+        if (amount.compareTo(new BigDecimal("0.01")) < 0) {
+            throw new InvalidAmountException("Transfer amount must be at least 0.01");
+        }
 
         Account sender = accountRepository
                 .findById(fromAccountId)

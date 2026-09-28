@@ -17,14 +17,14 @@ public class Account {
     private String accountNumber;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 32)
     private AccountType type;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 3)
     private CurrencyType currency;
 
-    @Column(name = "balance", nullable = false)
+    @Column(name = "balance", nullable = false, precision = 19, scale = 2)
     private BigDecimal balance;
 
     @Enumerated(EnumType.STRING)

@@ -45,4 +45,25 @@ public class FundingService {
 
 
     }
+
+    public LedgerTransaction withdraw(UUID accountId, BigDecimal amount) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() ->
+                        new AccountNotFoundException(
+                                "Account not found: " + accountId
+                        )
+                );
+
+        if (account.getAccountStatus() != AccountStatus.ACTIVE) {
+            throw new AccountInactiveException("Withdrawals can only be made for active accounts");
+        }
+
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new InvalidAmountException("Cannot withdraw amount less than 0");
+        }
+
+        return ledgerService.postWithdrawal(account, amount);
+
+
+    }
 }

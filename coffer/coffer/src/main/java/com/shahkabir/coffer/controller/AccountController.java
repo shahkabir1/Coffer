@@ -31,6 +31,7 @@ public class AccountController {
                 AccountNumberMasker.mask(account.getAccountNumber()),
                 account.getAccountType(),
                 account.getCurrency(),
+                account.getBalance(),
                 account.getAccountStatus(),
                 account.getCustomer().getId(),
                 account.getCreationTime()
@@ -47,6 +48,7 @@ public class AccountController {
                 AccountNumberMasker.mask(account.getAccountNumber()),
                 account.getAccountType(),
                 account.getCurrency(),
+                account.getBalance(),
                 account.getAccountStatus(),
                 account.getCustomer().getId(),
                 account.getCreationTime()
@@ -63,6 +65,7 @@ public class AccountController {
                         AccountNumberMasker.mask(account.getAccountNumber()),
                         account.getAccountType(),
                         account.getCurrency(),
+                        account.getBalance(),
                         account.getAccountStatus(),
                         account.getCustomer().getId(),
                         account.getCreationTime()
@@ -83,6 +86,7 @@ public class AccountController {
                 AccountNumberMasker.mask(account.getAccountNumber()),
                 account.getAccountType(),
                 account.getCurrency(),
+                account.getBalance(),
                 account.getAccountStatus(),
                 account.getCustomer().getId(),
                 account.getCreationTime()

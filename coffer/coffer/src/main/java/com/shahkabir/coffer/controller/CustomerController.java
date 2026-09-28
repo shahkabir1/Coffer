@@ -2,10 +2,8 @@ package com.shahkabir.coffer.controller;
 
 
 import com.shahkabir.coffer.dto.*;
-import com.shahkabir.coffer.model.Account;
 import com.shahkabir.coffer.model.Customer;
 import com.shahkabir.coffer.service.CustomerService;
-import com.shahkabir.coffer.util.AccountNumberMasker;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 

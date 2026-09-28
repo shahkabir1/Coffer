@@ -47,6 +47,9 @@ public class LedgerTransaction {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
+    protected LedgerTransaction(){
+    }
+
 
     public LedgerTransaction(Account fromAccount,
                              Account toAccount,

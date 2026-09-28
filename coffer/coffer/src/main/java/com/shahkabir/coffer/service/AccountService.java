@@ -1,5 +1,6 @@
 package com.shahkabir.coffer.service;
 
+import com.shahkabir.coffer.dto.FxRateResponse;
 import com.shahkabir.coffer.dto.UpdateAccountRequest;
 import com.shahkabir.coffer.exception.AccountNotFoundException;
 import com.shahkabir.coffer.util.AccountNumberGenerator;
@@ -11,6 +12,7 @@ import com.shahkabir.coffer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.NoSuchElementException;
 import java.util.List;
 import java.util.UUID;
@@ -20,14 +22,17 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final CustomerRepository customerRepository;
     private final AccountNumberGenerator accountNumberGenerator;
+    private final FxQuoteService fxQuoteService;
 
     public AccountService(
             AccountRepository accountRepository,
             CustomerRepository customerRepository,
-            AccountNumberGenerator accountNumberGenerator) {
+            AccountNumberGenerator accountNumberGenerator,
+            FxQuoteService fxQuoteService) {
         this.accountRepository = accountRepository;
         this.customerRepository = customerRepository;
         this.accountNumberGenerator = accountNumberGenerator;
+        this.fxQuoteService = fxQuoteService;
     }
 
     @Transactional
@@ -58,7 +63,16 @@ public class AccountService {
         }
 
         if (request.currency() != null) {
+            FxRateResponse response = fxQuoteService
+                    .getRate(account.getCurrency(),
+                    request.currency());
+
+            BigDecimal convertedAmount = account.getBalance()
+                    .multiply(response.rate());
+
+            account.setBalance(convertedAmount);
             account.changeCurrencyType(request.currency());
+
         }
 
         return account;

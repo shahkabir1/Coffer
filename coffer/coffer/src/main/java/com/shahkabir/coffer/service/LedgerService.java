@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -21,7 +20,8 @@ public class LedgerService {
 
     public LedgerService(
             LedgerTransactionRepository transactionRepository,
-            LedgerEntryRepository entryRepository) {
+            LedgerEntryRepository entryRepository,
+            AccountRepository accountRepository) {
         this.transactionRepository = transactionRepository;
         this.entryRepository = entryRepository;
         this.accountRepository = accountRepository;
@@ -90,7 +90,7 @@ public class LedgerService {
     @Transactional
     public LedgerTransaction postDeposit(Account customerAccount, BigDecimal amount) {
 
-        Account clearingAccount = accountRepository.findByAccountTypeAndCurrency(
+        Account clearingAccount = accountRepository.findByTypeAndCurrency(
                 AccountType.INTERNAL_CLEARING,
                 customerAccount.getCurrency()
         )
@@ -106,7 +106,7 @@ public class LedgerService {
                 customerAccount.getCurrency(),
                 amount, customerAccount.getCurrency(),
                 BigDecimal.ONE,
-                TransactionStatus.POSTED);
+                TransactionStatus.PENDING);
 
         clearingAccount.setBalance(
                 clearingAccount.getBalance().subtract(amount)
@@ -116,6 +116,8 @@ public class LedgerService {
                 customerAccount.getBalance().add(amount)
         );
 
+        transaction.changeTransactionStatus(TransactionStatus.POSTED);
+
         transactionRepository.save(transaction);
 
         LedgerEntry debitEntry = new LedgerEntry(transaction, clearingAccount,
@@ -123,6 +125,51 @@ public class LedgerService {
 
         LedgerEntry creditEntry = new LedgerEntry(transaction,
                 customerAccount, EntryType.CREDIT, amount,
+                customerAccount.getCurrency());
+
+        entryRepository.saveAll(List.of(debitEntry, creditEntry));
+
+        return transaction;
+    }
+
+    @Transactional
+    public LedgerTransaction postWithdrawal(Account customerAccount, BigDecimal amount) {
+
+        Account clearingAccount = accountRepository.findByTypeAndCurrency(
+                        AccountType.INTERNAL_CLEARING,
+                        customerAccount.getCurrency()
+                )
+                .orElseThrow(() ->
+                        new AccountNotFoundException(
+                                "No Internal Clearing accounts exist"
+                        )
+                );
+
+        LedgerTransaction transaction = new LedgerTransaction(customerAccount,
+                clearingAccount,
+                amount,
+                customerAccount.getCurrency(),
+                amount, customerAccount.getCurrency(),
+                BigDecimal.ONE,
+                TransactionStatus.PENDING);
+
+        clearingAccount.setBalance(
+                clearingAccount.getBalance().add(amount)
+        );
+
+        customerAccount.setBalance(
+                customerAccount.getBalance().subtract(amount)
+        );
+
+        transaction.changeTransactionStatus(TransactionStatus.POSTED);
+
+        transactionRepository.save(transaction);
+
+        LedgerEntry debitEntry = new LedgerEntry(transaction, customerAccount,
+                EntryType.DEBIT, amount, clearingAccount.getCurrency());
+
+        LedgerEntry creditEntry = new LedgerEntry(transaction,
+                clearingAccount, EntryType.CREDIT, amount,
                 customerAccount.getCurrency());
 
         entryRepository.saveAll(List.of(debitEntry, creditEntry));

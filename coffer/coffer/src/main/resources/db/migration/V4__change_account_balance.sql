@@ -1,0 +1,6 @@
+ALTER TABLE accounts
+ALTER COLUMN balance TYPE NUMERIC(19, 2)
+USING balance::NUMERIC(19, 2);
+
+ALTER TABLE accounts
+ALTER COLUMN balance SET DEFAULT 0.00;
