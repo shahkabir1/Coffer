@@ -1,6 +1,8 @@
 package com.shahkabir.coffer.model;
 
 
+import com.shahkabir.coffer.model.enums.CurrencyType;
+import com.shahkabir.coffer.model.enums.TransactionStatus;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -44,6 +46,9 @@ public class LedgerTransaction {
     @Column(name = "status", nullable = false)
     private TransactionStatus status;
 
+    @Column(name = "idempotency_key", nullable = false, unique = true)
+    private String idempotencyKey;
+
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
@@ -58,7 +63,8 @@ public class LedgerTransaction {
                              BigDecimal destinationAmount,
                              CurrencyType destinationCurrency,
                              BigDecimal exchangeRate,
-                             TransactionStatus status) {
+                             TransactionStatus status,
+                             String idempotencyKey) {
         this.fromAccount = fromAccount;
         this.toAccount = toAccount;
         this.sourceAmount = sourceAmount;
@@ -67,6 +73,7 @@ public class LedgerTransaction {
         this.destinationCurrency = destinationCurrency;
         this.exchangeRate = exchangeRate;
         this.status = status;
+        this.idempotencyKey = idempotencyKey;
         this.createdAt = Instant.now();
     }
 
@@ -104,6 +111,10 @@ public class LedgerTransaction {
 
     public TransactionStatus getStatus() {
         return status;
+    }
+
+    public String getIdempotencyKey() {
+        return idempotencyKey;
     }
 
     public Instant getCreationTime() {

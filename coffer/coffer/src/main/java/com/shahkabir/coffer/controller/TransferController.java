@@ -63,11 +63,13 @@ public class TransferController {
 
     @PostMapping
     public TransferResponse createTransfer(
+            @RequestHeader("Idempotency-Key") String idempotencyKey,
             @RequestBody @Valid CreateTransferRequest request) {
         LedgerTransaction transaction = transferService.transfer(
                 request.fromAccountId(),
                 request.toAccountId(),
-                request.amount()
+                request.amount(),
+                idempotencyKey
         );
 
         return new TransferResponse(

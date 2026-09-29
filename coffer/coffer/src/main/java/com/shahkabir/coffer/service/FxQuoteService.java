@@ -2,7 +2,7 @@ package com.shahkabir.coffer.service;
 
 
 import com.shahkabir.coffer.dto.FxRateResponse;
-import com.shahkabir.coffer.model.CurrencyType;
+import com.shahkabir.coffer.model.enums.CurrencyType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 

@@ -4,7 +4,7 @@ import com.shahkabir.coffer.exception.AccountInactiveException;
 import com.shahkabir.coffer.exception.AccountNotFoundException;
 import com.shahkabir.coffer.exception.InvalidAmountException;
 import com.shahkabir.coffer.model.Account;
-import com.shahkabir.coffer.model.AccountStatus;
+import com.shahkabir.coffer.model.enums.AccountStatus;
 import com.shahkabir.coffer.model.LedgerTransaction;
 import com.shahkabir.coffer.repository.AccountRepository;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class FundingService {
         this.ledgerService = ledgerService;
     }
 
-    public LedgerTransaction deposit(UUID accountId, BigDecimal amount) {
+    public LedgerTransaction deposit(UUID accountId, BigDecimal amount, String idempotencyKey) {
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() ->
                         new AccountNotFoundException(
@@ -41,12 +41,12 @@ public class FundingService {
             throw new InvalidAmountException("Cannot deposit amount less than 0");
         }
 
-        return ledgerService.postDeposit(account, amount);
+        return ledgerService.postDeposit(accountId, amount, idempotencyKey);
 
 
     }
 
-    public LedgerTransaction withdraw(UUID accountId, BigDecimal amount) {
+    public LedgerTransaction withdraw(UUID accountId, BigDecimal amount, String idempotencyKey) {
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() ->
                         new AccountNotFoundException(
@@ -62,7 +62,7 @@ public class FundingService {
             throw new InvalidAmountException("Cannot withdraw amount less than 0");
         }
 
-        return ledgerService.postWithdrawal(account, amount);
+        return ledgerService.postWithdrawal(accountId, amount, idempotencyKey);
 
 
     }

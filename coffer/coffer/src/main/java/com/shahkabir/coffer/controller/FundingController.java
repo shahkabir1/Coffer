@@ -4,7 +4,7 @@ package com.shahkabir.coffer.controller;
 import com.shahkabir.coffer.dto.DepositRequest;
 import com.shahkabir.coffer.dto.FundingResponse;
 import com.shahkabir.coffer.dto.WithdrawalRequest;
-import com.shahkabir.coffer.model.FundingType;
+import com.shahkabir.coffer.model.enums.FundingType;
 import com.shahkabir.coffer.model.LedgerTransaction;
 import com.shahkabir.coffer.service.FundingService;
 import jakarta.validation.Valid;
@@ -22,9 +22,11 @@ public class FundingController {
 
 
     @PostMapping("/deposits")
-    public FundingResponse deposit(@Valid @RequestBody DepositRequest request){
+    public FundingResponse deposit(
+            @RequestHeader("Idempotency-Key") String idempotencyKey,
+            @Valid @RequestBody DepositRequest request){
         LedgerTransaction transaction = fundingService
-                .deposit(request.accountId(), request.amount());
+                .deposit(request.accountId(), request.amount(), idempotencyKey);
 
         return new FundingResponse(
                 transaction.getId(),
@@ -38,9 +40,10 @@ public class FundingController {
 
     @PostMapping("/withdrawals")
     public FundingResponse withdraw(
+            @RequestHeader("Idempotency-Key") String idempotencyKey,
             @Valid @RequestBody WithdrawalRequest request){
         LedgerTransaction transaction = fundingService
-                .deposit(request.accountId(), request.amount());
+                .withdraw(request.accountId(), request.amount(), idempotencyKey);
 
         return new FundingResponse(
                 transaction.getId(),

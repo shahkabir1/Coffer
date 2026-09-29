@@ -1,14 +1,22 @@
 package com.shahkabir.coffer.repository;
 
 import com.shahkabir.coffer.model.Account;
-import com.shahkabir.coffer.model.AccountType;
-import com.shahkabir.coffer.model.CurrencyType;
+import com.shahkabir.coffer.model.enums.AccountType;
+import com.shahkabir.coffer.model.enums.CurrencyType;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 import java.util.UUID;
 
 public interface AccountRepository extends JpaRepository<Account, UUID> {
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT a FROM Account a WHERE a.id = :id")
+    Optional<Account> findByIdForUpdate(@Param("id") UUID id);
+
     Optional<Account> findByTypeAndCurrency(
             AccountType type,
             CurrencyType currency

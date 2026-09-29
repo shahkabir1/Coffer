@@ -1,6 +1,6 @@
 package com.shahkabir.coffer.dto;
 
-import com.shahkabir.coffer.model.AccountType;
+import com.shahkabir.coffer.model.enums.AccountType;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;

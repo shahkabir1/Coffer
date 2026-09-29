@@ -1,5 +1,8 @@
 package com.shahkabir.coffer.model;
 
+import com.shahkabir.coffer.model.enums.AccountStatus;
+import com.shahkabir.coffer.model.enums.AccountType;
+import com.shahkabir.coffer.model.enums.CurrencyType;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;

@@ -1,7 +1,7 @@
 package com.shahkabir.coffer.dto;
 
-import com.shahkabir.coffer.model.AccountStatus;
-import com.shahkabir.coffer.model.CurrencyType;
+import com.shahkabir.coffer.model.enums.AccountStatus;
+import com.shahkabir.coffer.model.enums.CurrencyType;
 
 public record UpdateAccountRequest (
         CurrencyType currency,

@@ -41,6 +41,18 @@ public class GlobalExceptionHandler {
                         ex.getMessage()));
     }
 
+    @ExceptionHandler(IdempotencyConflictException.class)
+    public ResponseEntity<ApiError> handleIdempotencyConflict(
+            IdempotencyConflictException ex
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ApiError(
+                        "IDEMPOTENCY_CONFLICT",
+                        ex.getMessage()
+                ));
+    }
+
     @ExceptionHandler(
             MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError> handleValidation(

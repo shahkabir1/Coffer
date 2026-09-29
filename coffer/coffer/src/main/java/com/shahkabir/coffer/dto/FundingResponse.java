@@ -1,8 +1,8 @@
 package com.shahkabir.coffer.dto;
 
-import com.shahkabir.coffer.model.CurrencyType;
-import com.shahkabir.coffer.model.FundingType;
-import com.shahkabir.coffer.model.TransactionStatus;
+import com.shahkabir.coffer.model.enums.CurrencyType;
+import com.shahkabir.coffer.model.enums.FundingType;
+import com.shahkabir.coffer.model.enums.TransactionStatus;
 
 import java.math.BigDecimal;
 import java.util.UUID;

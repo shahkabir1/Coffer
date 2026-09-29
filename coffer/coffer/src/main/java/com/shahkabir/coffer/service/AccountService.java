@@ -5,7 +5,7 @@ import com.shahkabir.coffer.dto.UpdateAccountRequest;
 import com.shahkabir.coffer.exception.AccountNotFoundException;
 import com.shahkabir.coffer.util.AccountNumberGenerator;
 import com.shahkabir.coffer.model.Account;
-import com.shahkabir.coffer.model.AccountType;
+import com.shahkabir.coffer.model.enums.AccountType;
 import com.shahkabir.coffer.model.Customer;
 import com.shahkabir.coffer.repository.AccountRepository;
 import com.shahkabir.coffer.repository.CustomerRepository;
@@ -65,12 +65,16 @@ public class AccountService {
         if (request.currency() != null) {
             FxRateResponse response = fxQuoteService
                     .getRate(account.getCurrency(),
-                    request.currency());
+                            request.currency());
 
             BigDecimal convertedAmount = account.getBalance()
                     .multiply(response.rate());
 
-            account.setBalance(convertedAmount);
+            if (convertedAmount.compareTo(BigDecimal.ZERO) > 0) {
+                account.setBalance(convertedAmount);
+            } else {
+                account.setBalance(BigDecimal.ZERO);
+            }
             account.changeCurrencyType(request.currency());
 
         }

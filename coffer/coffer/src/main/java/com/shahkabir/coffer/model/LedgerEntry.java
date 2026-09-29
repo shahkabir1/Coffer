@@ -1,10 +1,11 @@
 package com.shahkabir.coffer.model;
 
 
+import com.shahkabir.coffer.model.enums.CurrencyType;
+import com.shahkabir.coffer.model.enums.EntryType;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.util.Currency;
 import java.util.UUID;
 
 @Entity
@@ -32,6 +33,9 @@ public class LedgerEntry {
     @Enumerated(EnumType.STRING)
     @Column(name = "currency", nullable = false)
     private CurrencyType currency;
+
+    protected LedgerEntry(){
+    }
 
 
     public LedgerEntry(LedgerTransaction transaction,

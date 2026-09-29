@@ -1,4 +1,4 @@
-package com.shahkabir.coffer.model;
+package com.shahkabir.coffer.model.enums;
 
 public enum TransactionStatus {
     POSTED("Posted"),
